@@ -7,12 +7,12 @@
 class cube {
 private:
 	GLfloat position[3];
-	GLfloat length;  //边长
-	GLfloat direction[3]; //方向
-	GLfloat color[6][3]; //六个面的颜色
+	GLfloat length;  //杈归暱
+	GLfloat direction[3]; //鏂瑰悜
+	GLfloat color[6][3]; //鍏釜闈㈢殑棰滆壊
 
 public:
-	cube(GLfloat* p, GLfloat* d, GLfloat* c[], GLfloat l);
+	cube(GLfloat p[], GLfloat d[], GLfloat c[][3], GLfloat l);
 	~cube();
 	GLfloat * getPosition();
 	void setPosition(GLfloat* p);
