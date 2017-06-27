@@ -1,6 +1,6 @@
 #include "cube.h"
 
-cube::cube(GLfloat* p, GLfloat* d, GLfloat* c[], GLfloat l) {
+cube::cube(GLfloat p[], GLfloat d[], GLfloat c[][3], GLfloat l) {
 	for (int i = 0; i < 3; i++) {
 		position[i] = p[i];
 		direction[i] = d[i];
@@ -43,3 +43,4 @@ GLfloat cube::getLength() {
 void cube::setLength(GLfloat l) {
 	length = l;
 }
+
