@@ -25,8 +25,6 @@ public:
 
 	cube* getACube(int x, int y, int z);  //返回Cube[x][y][z]的指针
 
-	void AllCubeDO(void (*fuc)(void)); //对所有Cube使用函数fuc
-
 	void RotatPlane(int xyz, int num, int dir, GLfloat angle, int update); 
 	//xyz = 0， num = 1 即为旋转 x = 1 的平面 xyz = 1, num = 2即为旋转 y = 2的面，类推，num = 3为同时旋转3个面，即整个魔方
 	//dir = 0/1为顺/逆时针, angle为旋转角度，update为0不需更新Cube数组,1为需要更新。
