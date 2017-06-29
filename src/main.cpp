@@ -102,10 +102,18 @@ void processNormalKeys(unsigned char key, int x, int y)
 
 	if (key == 'X' || key == 'x')
 		controller->RoateSetting(0, 3, 1);
+	if (key == 'S' || key == 's')
+		controller->RoateSetting(0, 3, -1);
 	if (key == 'Y' || key == 'y')
 		controller->RoateSetting(1, 3, 1);
+	if (key == 'H' || key == 'h')
+		controller->RoateSetting(1, 3, -1);
 	if (key == 'Z' || key == 'z')
 		controller->RoateSetting(2, 3, 1);
+	if (key == 'A' || key == 'a')
+		controller->RoateSetting(2, 3, -1);
+
+
 	if (key == '4') {
 		xadd -= 0.1;
 		if (xadd < -0.7) xadd = -0.7;
@@ -123,17 +131,3 @@ void processNormalKeys(unsigned char key, int x, int y)
 		if (yadd < -0.7) yadd = -0.7;
 	}
 }
-
-//void DrawCube(void) {
-//	int i, j;
-//	glBegin(GL_QUADS);
-//	glEnd();
-//}
-//
-//void translation() {
-//	glTranslatef(location, 0, 0);
-//}
-//
-//void rotation() {
-//	glRotatef(angle, 1, 1, 0);  // rotate around y=x axis in the XoY plane
-//}
