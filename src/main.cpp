@@ -29,7 +29,7 @@ void renderScene(void) {
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glFrustum(-0.2, 0.2, -0.2, 0.2, 0.5, 100);  // Í¸ÊÓÍ¶Ó°
+	glFrustum(-0.2, 0.2, -0.2, 0.2, 0.5, 100);  // 透视投影
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
@@ -56,7 +56,7 @@ void main(int argc, char **argv)
 	glutInitWindowPosition(100, 100);
 	glutInitWindowSize(800, 800);
 	
-	//³õÊ¼»¯Ä§·½
+	//初始化魔方
 	myRubik = new rubik(RubikPosition, RubikColor, RubikLength);
 	controller = new RubikController();
 	controller->setRubik(myRubik);
