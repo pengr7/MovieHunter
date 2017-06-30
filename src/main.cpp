@@ -29,7 +29,7 @@ void renderScene(void) {
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glFrustum(-0.2, 0.2, -0.2, 0.2, 0.5, 100);  // ͸��ͶӰ
+	glFrustum(-0.2, 0.2, -0.2, 0.2, 0.5, 100);  // Í¸ÊÓÍ¶Ó°
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
@@ -56,7 +56,7 @@ void main(int argc, char **argv)
 	glutInitWindowPosition(100, 100);
 	glutInitWindowSize(800, 800);
 	
-	//��ʼ��ħ��
+	//³õÊ¼»¯Ä§·½
 	myRubik = new rubik(RubikPosition, RubikColor, RubikLength);
 	controller = new RubikController();
 	controller->setRubik(myRubik);
@@ -113,7 +113,11 @@ void processNormalKeys(unsigned char key, int x, int y)
 	if (key == 'A' || key == 'a')
 		controller->RoateSetting(2, 3, -1);
 
-
+	if (key == '0') {
+		xadd = 0.4;
+		yadd = 0.4;
+		zadd = 0;
+	}
 	if (key == '4') {
 		xadd -= 0.1;
 		if (xadd < -0.7) xadd = -0.7;
