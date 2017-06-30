@@ -139,18 +139,22 @@ void processNormalKeys(unsigned char key, int x, int y)
 	}
 	if (key == '4') {
 		xadd -= 0.1;
-		if (xadd < -0.7) xadd = -0.7;
+		if (xadd < -0.7)
+			xadd = -0.7;
 	}
 	if (key == '6') {
 		xadd += 0.1;
-		if (xadd > 0.7) xadd = 0.7;
+		if (xadd > 0.7)
+			xadd = 0.7;
 	}
 	if (key == '8') {
-		yadd += 0.1;
-		if (yadd > 0.7) yadd = 0.7;
+		yadd -= 0.1;
+		if (yadd < -0.7)
+			yadd = -0.7;
 	}
 	if (key == '5') {
-		yadd -= 0.1;
-		if (yadd < -0.7) yadd = -0.7;
+		yadd += 0.1;
+		if (yadd > 0.7)
+			yadd = 0.7;
 	}
 }
