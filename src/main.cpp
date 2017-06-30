@@ -71,48 +71,67 @@ void main(int argc, char **argv)
 
 void processNormalKeys(unsigned char key, int x, int y)
 {
-	if (key == 'L' || key == 'l')  
-		controller->RoateSetting(0, 0, -1);
-	if (key == ';')
-		controller->RoateSetting(0, 0, 1);
-	if (key == 'R' || key == 'r')
-		controller->RoateSetting(0, 2, 1);
-	if (key == 'T' || key == 't')
-		controller->RoateSetting(0, 2, -1);
-	if (key == 'R' || key == 'r')
-		controller->RoateSetting(0, 2, 1);
-	if (key == 'T' || key == 't')
-		controller->RoateSetting(0, 2, -1);
-	if (key == 'F' || key == 'f')
+	// Front Back Up Down Left Right
+	if (key == 'F')
 		controller->RoateSetting(2, 2, 1);
-	if (key == 'G' || key == 'g')
+	if (key == 'f')
 		controller->RoateSetting(2, 2, -1);
-	if (key == 'B' || key == 'b')
+	if (key == 'B')
 		controller->RoateSetting(2, 0, -1);
-	if (key == 'N' || key == 'n')
+	if (key == 'b')
 		controller->RoateSetting(2, 0, 1);
-	if (key == 'U' || key == 'u')
+	if (key == 'U')
 		controller->RoateSetting(1, 2, 1);
-	if (key == 'I' || key == 'i')
+	if (key == 'u')
 		controller->RoateSetting(1, 2, -1);
-	if (key == 'D' || key == 'd')
+	if (key == 'D')
 		controller->RoateSetting(1, 0, -1);
-	if (key == 'C' || key == 'c')
+	if (key == 'd')
 		controller->RoateSetting(1, 0, 1);
+	if (key == 'L')
+		controller->RoateSetting(0, 0, -1);
+	if (key == 'l')
+		controller->RoateSetting(0, 0, 1);
+	if (key == 'R')
+		controller->RoateSetting(0, 2, 1);
+	if (key == 'r')
+		controller->RoateSetting(0, 2, -1);
 
-	if (key == 'X' || key == 'x')
+	// Middle Equator Standing
+	if (key == 'M') {
+		controller->RoateSetting(0, 1, -1);
+	}
+	if (key == 'm') {
+		controller->RoateSetting(0, 1, 1);
+	}
+	if (key == 'E') {
+		controller->RoateSetting(1, 1, -1);
+	}
+	if (key == 'e') {
+		controller->RoateSetting(1, 1, 1);
+	}
+	if (key == 'S') {
+		controller->RoateSetting(2, 1, 1);
+	}
+	if (key == 's') {
+		controller->RoateSetting(2, 1, -1);
+	}
+
+	// X Y Z
+	if (key == 'X')
 		controller->RoateSetting(0, 3, 1);
-	if (key == 'S' || key == 's')
+	if (key == 'x')
 		controller->RoateSetting(0, 3, -1);
-	if (key == 'Y' || key == 'y')
+	if (key == 'Y')
 		controller->RoateSetting(1, 3, 1);
-	if (key == 'H' || key == 'h')
+	if (key == 'y')
 		controller->RoateSetting(1, 3, -1);
-	if (key == 'Z' || key == 'z')
+	if (key == 'Z')
 		controller->RoateSetting(2, 3, 1);
-	if (key == 'A' || key == 'a')
+	if (key == 'z')
 		controller->RoateSetting(2, 3, -1);
 
+	// Fine tuning and reset
 	if (key == '0') {
 		xadd = 0.4;
 		yadd = 0.4;
