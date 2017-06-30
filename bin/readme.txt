@@ -1,16 +1,24 @@
-魔方模拟器
+Rubik's Cube Simulator
+v0.2
+Intro
 
-v0.1
-按键说明：
-R旋转右面 T逆向
-L旋转左面 ;逆向
-U旋转上面 I逆向
-D旋转下面 C逆向
-F旋转前面 G逆向
-B旋转后面 N逆向
-X整体绕X轴正方向顺时针旋转 S逆向
-Y整体绕Y轴正方向顺时针旋转 H逆向
-Z整体绕Z轴正方向顺时针旋转 A逆向
+F (Front): the side currently facing the solver
+B (Back): the side opposite the front
+U (Up): the side above or on top of the front side
+D (Down): the side opposite the top, underneath the Cube
+L (Left): the side directly to the left of the front
+R (Right): the side directly to the right of the front
 
- 8
-456 控制视角
+M (Middle): the layer between L and R, turn direction as L (top-down)
+E (Equator): the layer between U and D, turn direction as D (left-right)
+S (Standing): the layer between F and B, turn direction as F
+
+X (rotate): rotate the entire Cube on R
+Y (rotate): rotate the entire Cube on U
+Z (rotate): rotate the entire Cube on F
+
+Lower case letters: counter-clockwise move
+
+( 8 )
+(456): fine tune the view
+0: reset the view
