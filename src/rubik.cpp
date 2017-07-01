@@ -209,7 +209,7 @@ void rubik::RotatPlane(int xyz, int num, int dir, int update) {
 			}
 		}
 	} //设置各个cube的旋转状态，如若需要更新就更新dirition，并设置position更新数组MoveTo
-	if (update == 1) {
+        if (update == 1) {
 	    for (int i = 0; i < 3; i++) {
 	    	for (int j = 0; j < 3; j++) {
 	    		for (int k = 0; k < 3; k++) {
@@ -237,7 +237,8 @@ void rubik::RotatPlane(int xyz, int num, int dir, int update) {
 			    }
 		    }
 	    }
-    }
+	    checkc();
+        }//如果update是1就依据更新数组MoveTo更新position,并检查是否完成
 }
 //xyz = 0， num = 1 即为旋转 x = 1 的平面 xyz = 1, num = 2即为旋转 y = 2的面，类推，num = 3为同时旋转3个面，即整个魔方, num = -1 为无
 //dir = -1/1为顺/逆时针, angle为旋转角度，update为0不需更新Cube数组,1为需要更新。
