@@ -20,6 +20,7 @@ public:
 	void setRubik(rubik* rubik_); //设置魔方
 	void RoateSetting(int xyz_, int num_, int dir_); //只有在IsRoating是false的情况下才能更改xyz,num,dir
 	void RubikMainCycle(); //主循环里每次循环都调用本函数，在这个函数调用MyRubik->RotatPlane(),并更新IsRoating和RoateCount,然后绘制魔方
+	void doReset(); //还原魔方
 };
 
 #endif
