@@ -74,7 +74,7 @@ void main(int argc, char **argv)
 	glutMainLoop();
 }
 
-void subProcess(unsigned char key, int x, int y) {
+void subProcess(unsigned char key) {
 	// Front Back Up Down Left Right
 	if (key == 'F')
 		controller->RoateSetting(2, 2, 1);
@@ -167,13 +167,13 @@ void processNormalKeys(unsigned char key, int x, int y)
 {
 	if (key == 'Q' || key == 'q') {
 		if (!restore.empty() && !controller->getRotatingState()) {
-			subProcess(restore.back(), x, y);
+			subProcess(restore.back());
 			restore.pop_back();
 		}
 	}
 	else {
 		if (!controller->getRotatingState()) {
-			subProcess(key, x, y);
+			subProcess(key);
 			if (isupper(key))
 				restore += tolower(key);
 			if (islower(key))
