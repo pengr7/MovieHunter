@@ -77,3 +77,8 @@ void RubikController::RubikMainCycle() {
 
 }//主循环里每次循环都调用本函数，在这个函数调用MyRubik->RotatPlane(),并更新IsRoating和RoateCount,然后绘制魔方
 
+void RubikController::doReset() {
+	if (!IsRoating) {
+		MyRubik->reset();
+	}
+}//还原魔方
