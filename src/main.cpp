@@ -5,7 +5,7 @@
 #include <time.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include<iostream>
+#include <iostream>
 #include "RubikController.h"
 using namespace std;
 
@@ -35,7 +35,7 @@ void renderScene(void) {
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glFrustum(-0.2, 0.2, -0.2, 0.2, 0.5, 100);  // Í¸ÊÓÍ¶Ó°
+	glFrustum(-0.2, 0.2, -0.2, 0.2, 0.5, 100);  // é€è§†æŠ•å½±
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
@@ -65,26 +65,38 @@ void Reshape(int width, int height) {
 
 // function callback for UI 
 void TW_CALL Rotate_X(void*) {
+	if (controller->getRotatingState())
+		return;
 	controller->RoateSetting(0, 3, 1);
 	restore += tolower('x');
 }
 void TW_CALL Rotate_Y(void*) {
+	if (controller->getRotatingState())
+		return;
 	controller->RoateSetting(1, 3, 1);
 	restore += tolower('y');
 }
 void TW_CALL Rotate_Z(void*) {
+	if (controller->getRotatingState())
+		return;
 	controller->RoateSetting(2, 3, 1);
 	restore += tolower('z');
 }
 void TW_CALL Rotate_X_inverse(void*) {
+	if (controller->getRotatingState())
+		return;
 	controller->RoateSetting(0, 3, -1);
 	restore += toupper('x');
 }
 void TW_CALL Rotate_Y_inverse(void*) {
+	if (controller->getRotatingState())
+		return;
 	controller->RoateSetting(1, 3, -1);
 	restore += toupper('y');
 }
 void TW_CALL Rotate_Z_inverse(void*) {
+	if (controller->getRotatingState())
+		return;
 	controller->RoateSetting(2, 3, -1);
 	restore += toupper('z');
 }
@@ -119,85 +131,125 @@ yadd = 0.7;
 
 
 void TW_CALL Action_Front(void*) {
+	if (controller->getRotatingState())
+		return;
 	controller->RoateSetting(2, 2, 1);
 	restore += tolower('f');
 }
 void TW_CALL Action_Back(void*) {
+	if (controller->getRotatingState())
+		return;
 	controller->RoateSetting(2, 0, -1);
 	restore += tolower('b');
 }
 void TW_CALL Action_Left(void*) {
+	if (controller->getRotatingState())
+		return;
 	controller->RoateSetting(0, 0, -1);
 	restore += tolower('L');
 }
 void TW_CALL Action_Right(void*) {
+	if (controller->getRotatingState())
+		return;
 	controller->RoateSetting(0, 2, 1);
 	restore += tolower('r');
 }
 void TW_CALL Action_Up(void*) {
+	if (controller->getRotatingState())
+		return;
 	controller->RoateSetting(1, 2, 1);
 	restore += tolower('u');
 }
 void TW_CALL Action_Down(void*) {
+	if (controller->getRotatingState())
+		return;
 	controller->RoateSetting(1, 0, -1);
 	restore += tolower('d');
 }
 
 void TW_CALL Action_Front_inverse(void*) {
+	if (controller->getRotatingState())
+		return;
 	controller->RoateSetting(2, 2, -1);
 	restore += toupper('f');
 }
 void TW_CALL Action_Back_inverse(void*) {
+	if (controller->getRotatingState())
+		return;
 	controller->RoateSetting(2, 0, 1);
 	restore += toupper('b');
 }
 void TW_CALL Action_Left_inverse(void*) {
+	if (controller->getRotatingState())
+		return;
 	controller->RoateSetting(0, 0, 1);
 	restore += toupper('L');
 }
 void TW_CALL Action_Right_inverse(void*) {
+	if (controller->getRotatingState())
+		return;
 	controller->RoateSetting(0, 2, -1);
 	restore += toupper('r');
 }
 void TW_CALL Action_Up_inverse(void*) {
+	if (controller->getRotatingState())
+		return;
 	controller->RoateSetting(1, 2, -1);
 	restore += toupper('u');
 }
 void TW_CALL Action_Down_inverse(void*) {
+	if (controller->getRotatingState())
+		return;
 	controller->RoateSetting(1, 0, 1);
 	restore += toupper('d');
 }
 
 
 void TW_CALL Action_M(void*) {
+	if (controller->getRotatingState())
+		return;
 	controller->RoateSetting(0, 1, -1);
 	restore += tolower('m');
 }
 void TW_CALL Action_E(void*) {
+	if (controller->getRotatingState())
+		return;
 	controller->RoateSetting(1, 1, -1);
 	restore += tolower('e');
 }
 void TW_CALL Action_S(void*) {
+	if (controller->getRotatingState())
+		return;
 	controller->RoateSetting(2, 1, 1);
 	restore += tolower('s');
 }
 void TW_CALL Action_M_inverse(void*) {
+	if (controller->getRotatingState())
+		return;
 	controller->RoateSetting(0, 1, 1);
 	restore += toupper('m');
 }
 void TW_CALL Action_E_inverse(void*) {
+	if (controller->getRotatingState())
+		return;
 	controller->RoateSetting(1, 1, 1);
 	restore += toupper('e');
 }
 void TW_CALL Action_S_inverse(void*) {
+	if (controller->getRotatingState())
+		return;
 	controller->RoateSetting(2, 1, -1);
 	restore += toupper('s');
 }
-void TW_CALL Restore(void*) {
+void TW_CALL Undo(void*) {
 	if (!restore.empty() && !controller->getRotatingState()) {
 		subProcess(restore.back());
 		restore.pop_back();
 	}
+}
+void TW_CALL Restore(void*) {
+	controller->doReset();
+	restore.clear();
 }
 
 
@@ -239,7 +291,7 @@ void main(int argc, char **argv)
 
 	bar = TwNewBar("TweakBar");
 	TwDefine(" GLOBAL help='Rotate the rubik' "); // Message added to the help bar.
-	TwDefine(" TweakBar size='200 200' color='96 216 224' "); // change default tweak bar size and color
+	TwDefine(" TweakBar size='200 170' color='96 216 224' "); // change default tweak bar size and color
 	TwDefine(" TweakBar position='10 10' ");
 	TwAddButton(bar, "Rotate_X", Rotate_X, NULL, " label='Rotate X ' ");
 	TwAddButton(bar, "Rotate_Y", Rotate_Y, NULL, " label='Rotate Y ' ");
@@ -247,6 +299,8 @@ void main(int argc, char **argv)
 	TwAddButton(bar, "Rotate_X_inverse", Rotate_X_inverse, NULL, " label='Rotate X inverse' ");
 	TwAddButton(bar, "Rotate_Y_inverse", Rotate_Y_inverse, NULL, " label='Rotate Y inverse' ");
 	TwAddButton(bar, "Rotate_Z_inverse", Rotate_Z_inverse, NULL, " label='Rotate Z inverse' ");
+	TwAddButton(bar, "Undo", Undo, NULL, " label='Undo' ");
+	TwAddButton(bar, "Restore", Restore, NULL, " label='Restore' ");
 	//TwAddButton(bar, "Rotate_X", Rotate_X, NULL, " label='Rotate around X direction' ");
 	/*
 	bar = TwNewBar("Look_normal");
@@ -263,8 +317,8 @@ void main(int argc, char **argv)
 
 	bar = TwNewBar("Action_normal");
 	TwDefine(" GLOBAL help='Your action' "); // Message added to the help bar.
-	TwDefine(" Action_normal size='200 300' color='96 216 224' "); // change default tweak bar size and color
-	TwDefine(" Action_normal position='250 100' ");
+	TwDefine(" Action_normal size='200 180' color='96 216 224' "); // change default tweak bar size and color
+	TwDefine(" Action_normal position='250 10' ");
 	TwAddButton(bar, "Front", Action_Front, NULL, " label='Front' ");
 	TwAddButton(bar, "Back", Action_Back, NULL, " label='Back' ");
 	TwAddButton(bar, "Left", Action_Left, NULL, " label='Left' ");
@@ -274,13 +328,12 @@ void main(int argc, char **argv)
 	TwAddButton(bar, "M", Action_M, NULL, " label='M' ");
 	TwAddButton(bar, "E", Action_E, NULL, " label='E' ");
 	TwAddButton(bar, "S", Action_S, NULL, " label='S' ");
-	TwAddButton(bar, "Restore", Restore, NULL, " label='Restore' ");
 
 
 	bar = TwNewBar("Action_inverse");
 	TwDefine(" GLOBAL help='Your action' "); // Message added to the help bar.
-	TwDefine(" Action_inverse size='200 300' color='96 216 224' "); // change default tweak bar size and color
-	TwDefine(" Action_inverse position='500 100' ");
+	TwDefine(" Action_inverse size='200 180' color='96 216 224' "); // change default tweak bar size and color
+	TwDefine(" Action_inverse position='490 10' ");
 	TwAddButton(bar, "Front_inverse", Action_Front_inverse, NULL, " label='Front_inverse' ");
 	TwAddButton(bar, "Back_inverse", Action_Back_inverse, NULL, " label='Back_inverse' ");
 	TwAddButton(bar, "Left_inverse", Action_Left_inverse, NULL, " label='Left_inverse' ");
@@ -290,16 +343,13 @@ void main(int argc, char **argv)
 	TwAddButton(bar, "M_inverse", Action_M_inverse, NULL, " label='M_inverse' ");
 	TwAddButton(bar, "E_inverse", Action_E_inverse, NULL, " label='E_inverse' ");
 	TwAddButton(bar, "S_inverse", Action_S_inverse, NULL, " label='S_inverse' ");
-	TwAddButton(bar, "Restore", Restore, NULL, " label='Restore' ");
 
 
-	//³õÊ¼»¯Ä§·½
+	//åˆå§‹åŒ–é­”æ–¹
 	myRubik = new rubik(RubikPosition, RubikColor, RubikLength);
 	controller = new RubikController();
 	controller->setRubik(myRubik);
 	controller->setSpeed(speed);
-
-
 
 	glutKeyboardFunc(processNormalKeys);
 	glutMainLoop();
