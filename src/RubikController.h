@@ -5,20 +5,21 @@
 class RubikController {
 private:
 	rubik* MyRubik = NULL;
-	GLfloat RoateSpeed = 0.1; //Ä§·½Ğı×ªµÄËÙ¶È(Ò»Ö¡Ğı×ªµÄ½Ç¶È)
-	bool IsRoating = false; //ÊÇ·ñÕıÔÚĞı×ª
-	int xyz = 0;  //xyzÖáĞı×ª
-	int num = -1;  //Ñ¡Ôñ0/1/2Ãæ£¬3È«²¿£¬-1±íÊ¾²»Ğı×ª
-	int dir = 0;  //Ğı×ªµÄ·½Ïò£¬0/1ÎªË³/ÄæÊ±Õë
-	GLfloat RoateCount = 0; //×öÒ»¸öĞı×ªÊÔÀÛ¼Æµ½RoateCount = 90¼´½áÊøĞı×ª
+	GLfloat RoateSpeed = 0.1; //é­”æ–¹æ—‹è½¬çš„é€Ÿåº¦(ä¸€å¸§æ—‹è½¬çš„è§’åº¦)
+	bool IsRoating = false; //æ˜¯å¦æ­£åœ¨æ—‹è½¬
+	int xyz = 0;  //xyzè½´æ—‹è½¬
+	int num = -1;  //é€‰æ‹©0/1/2é¢ï¼Œ3å…¨éƒ¨ï¼Œ-1è¡¨ç¤ºä¸æ—‹è½¬
+	int dir = 0;  //æ—‹è½¬çš„æ–¹å‘ï¼Œ0/1ä¸ºé¡º/é€†æ—¶é’ˆ
+	GLfloat RoateCount = 0; //åšä¸€ä¸ªæ—‹è½¬è¯•ç´¯è®¡åˆ°RoateCount = 90å³ç»“æŸæ—‹è½¬
 
 public:
 	RubikController();
 	~RubikController();
+	bool getRotatingState();
 	void setSpeed(GLfloat s);
-	void setRubik(rubik* rubik_); //ÉèÖÃÄ§·½
-	void RoateSetting(int xyz_, int num_, int dir_); //Ö»ÓĞÔÚIsRoatingÊÇfalseµÄÇé¿öÏÂ²ÅÄÜ¸ü¸Äxyz,num,dir
-	void RubikMainCycle(); //Ö÷Ñ­»·ÀïÃ¿´ÎÑ­»·¶¼µ÷ÓÃ±¾º¯Êı£¬ÔÚÕâ¸öº¯Êıµ÷ÓÃMyRubik->RotatPlane(),²¢¸üĞÂIsRoatingºÍRoateCount,È»ºó»æÖÆÄ§·½
+	void setRubik(rubik* rubik_); //è®¾ç½®é­”æ–¹
+	void RoateSetting(int xyz_, int num_, int dir_); //åªæœ‰åœ¨IsRoatingæ˜¯falseçš„æƒ…å†µä¸‹æ‰èƒ½æ›´æ”¹xyz,num,dir
+	void RubikMainCycle(); //ä¸»å¾ªç¯é‡Œæ¯æ¬¡å¾ªç¯éƒ½è°ƒç”¨æœ¬å‡½æ•°ï¼Œåœ¨è¿™ä¸ªå‡½æ•°è°ƒç”¨MyRubik->RotatPlane(),å¹¶æ›´æ–°IsRoatingå’ŒRoateCount,ç„¶åç»˜åˆ¶é­”æ–¹
 };
 
 #endif
