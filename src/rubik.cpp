@@ -39,7 +39,7 @@ rubik::rubik(GLfloat p[], GLfloat c[][3], GLfloat l) {
 			}
 		}
 	}
-} //ĞèÒª³õÊ¼»¯CubeÊı×é
+} //éœ€è¦åˆå§‹åŒ–Cubeæ•°ç»„
 rubik::~rubik() {
 	for (int i = 0; i < 3; i++) {
 		for (int j = 0; j < 3; j++) {
@@ -105,7 +105,7 @@ void rubik::setLength(GLfloat l) {
 
 cube* rubik::getACube(int x, int y, int z) {
 	return Cube[x][y][z];
-}//·µ»ØCube[x][y][z]µÄÖ¸Õë
+}//è¿”å›Cube[x][y][z]çš„æŒ‡é’ˆ
 
 const int P_Index[12][2] = { 0,0,1,2,2,1,1,0,0,1,0,0,
 				             0,0,0,2,2,2,2,0,0,0,0,0 };
@@ -208,7 +208,7 @@ void rubik::RotatPlane(int xyz, int num, int dir, int update) {
 				}
 			}
 		}
-	} //ÉèÖÃ¸÷¸öcubeµÄĞı×ª×´Ì¬£¬ÈçÈôĞèÒª¸üĞÂ¾Í¸üĞÂdirition£¬²¢ÉèÖÃposition¸üĞÂÊı×éMoveTo
+	} //è®¾ç½®å„ä¸ªcubeçš„æ—‹è½¬çŠ¶æ€ï¼Œå¦‚è‹¥éœ€è¦æ›´æ–°å°±æ›´æ–°diritionï¼Œå¹¶è®¾ç½®positionæ›´æ–°æ•°ç»„MoveTo
 	if (update == 1) {
 	    for (int i = 0; i < 3; i++) {
 	    	for (int j = 0; j < 3; j++) {
@@ -239,5 +239,54 @@ void rubik::RotatPlane(int xyz, int num, int dir, int update) {
 	    }
     }
 }
-//xyz = 0£¬ num = 1 ¼´ÎªĞı×ª x = 1 µÄÆ½Ãæ xyz = 1, num = 2¼´ÎªĞı×ª y = 2µÄÃæ£¬ÀàÍÆ£¬num = 3ÎªÍ¬Ê±Ğı×ª3¸öÃæ£¬¼´Õû¸öÄ§·½, num = -1 ÎªÎŞ
-//dir = -1/1ÎªË³/ÄæÊ±Õë, angleÎªĞı×ª½Ç¶È£¬updateÎª0²»Ğè¸üĞÂCubeÊı×é,1ÎªĞèÒª¸üĞÂ¡£
+//xyz = 0ï¼Œ num = 1 å³ä¸ºæ—‹è½¬ x = 1 çš„å¹³é¢ xyz = 1, num = 2å³ä¸ºæ—‹è½¬ y = 2çš„é¢ï¼Œç±»æ¨ï¼Œnum = 3ä¸ºåŒæ—¶æ—‹è½¬3ä¸ªé¢ï¼Œå³æ•´ä¸ªé­”æ–¹, num = -1 ä¸ºæ— 
+//dir = -1/1ä¸ºé¡º/é€†æ—¶é’ˆ, angleä¸ºæ—‹è½¬è§’åº¦ï¼Œupdateä¸º0ä¸éœ€æ›´æ–°Cubeæ•°ç»„,1ä¸ºéœ€è¦æ›´æ–°ã€‚
+
+bool compareColor(GLfloat* c1, GLfloat* c2) {
+	for (int i = 0; i < 3; i++) {
+		if (c1[i] != c2[i]) return false;
+	}
+	return true;
+}
+
+int ColorNum(cube* c) {
+	for (int i = 0; i < 6; i++) {
+		if (!(c->getColor(i)[0] == 0 && c->getColor(i)[1] == 0 && c->getColor(i)[2] == 0)) {
+			return i;
+		}
+	}
+} //å¾—åˆ°ä¸­å¿ƒæ–¹å—æœ‰é¢œè‰²çš„é¢çš„ç¼–å·
+
+void rubik::checkc() {
+	GLfloat d_check[6];
+	bool ic = true;
+	for (int i = 0; i < 6; i++) {
+		d_check[i] = Cube[0][0][0]->getDirection()[i];
+	}
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 3; j++) {
+			for (int k = 0; k < 3; k++) {
+				for (int p = 0; p < 6; p++) {
+					if (d_check[p] != Cube[i][j][k]->getDirection()[p] && !((i == 1 && j == 1) || (i == 1 && k == 1) || (k == 1 && j == 1))) {
+						ic = false;
+					}
+				}
+			}
+		}
+	}
+
+	int a = ColorNum(Cube[1][1][0]);
+	if (!compareColor(Cube[1][1][0]->getColor(a), Cube[0][0][0]->getColor(a))) {
+		ic = false;
+	}
+	a = ColorNum(Cube[1][0][1]);
+	if (!compareColor(Cube[1][0][1]->getColor(a), Cube[0][0][0]->getColor(a))) {
+		ic = false;
+	}
+	IsCompleted = ic;
+}//æ£€æŸ¥é­”æ–¹æ˜¯å¦æ˜¯å®ŒæˆçŠ¶æ€ï¼Œå¹¶æ›´æ–°IsCompleted
+
+
+bool rubik::IsComp() {
+	return IsCompleted;
+}//è¿”å›IsCompletedçš„å€¼
