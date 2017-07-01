@@ -291,3 +291,25 @@ void rubik::checkc() {
 bool rubik::IsComp() {
 	return IsCompleted;
 }//返回IsCompleted的值
+
+void rubik::reset() {
+	GLfloat d[6] = { 0, 0, 1, 0, 1, 0 };
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 3; j++) {
+			for (int k = 0; k < 3; k++) {
+				Cube[i][j][k]->setDirection(d);
+				GLfloat b_color[3] = { 0,0,0 };
+				for (int num = 0; num < 6; num++) {
+					if ((i == colorIndex[num][0] || colorIndex[num][0] == -1) &&
+						(j == colorIndex[num][1] || colorIndex[num][1] == -1) &&
+						(k == colorIndex[num][2] || colorIndex[num][2] == -1)) {
+						Cube[i][j][k]->setColor(num, color[num]);
+					} else {
+						Cube[i][j][k]->setColor(num, b_color);
+					}
+				}
+			}
+		}
+	}
+	IsCompleted = true;
+} //还原魔方
