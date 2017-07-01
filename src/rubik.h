@@ -5,11 +5,12 @@
 class rubik {
 private:
 	GLfloat position[3];
-	GLfloat length;  //Ğ¡¿é±ß³¤
-	GLfloat color[6][3]; //Áù¸öÃæµÄÑÕÉ« Ë³ĞòÎªµ×Ç°ÓÒºó×ó¶¥
-	cube* Cube[3][3][3]; //Ä§·½×óºóÏÂ½Ç¿éÎª(0,0,0)£¬Ïò×óXÖáÕı£¬ÏòÇ°ZÖáÕı£¬ÏòÉÏYÖáÕı¡£
+	GLfloat length;  //å°å—è¾¹é•¿
+	GLfloat color[6][3]; //å…­ä¸ªé¢çš„é¢œè‰² é¡ºåºä¸ºåº•å‰å³åå·¦é¡¶
+	cube* Cube[3][3][3]; //é­”æ–¹å·¦åä¸‹è§’å—ä¸º(0,0,0)ï¼Œå‘å·¦Xè½´æ­£ï¼Œå‘å‰Zè½´æ­£ï¼Œå‘ä¸ŠYè½´æ­£ã€‚
+	bool IsCompleted;
 public:
-	rubik(GLfloat p[], GLfloat c[][3], GLfloat l); //ĞèÒª³õÊ¼»¯CubeÊı×é
+	rubik(GLfloat p[], GLfloat c[][3], GLfloat l); //éœ€è¦åˆå§‹åŒ–Cubeæ•°ç»„
 	~rubik();
 
 	GLfloat * getPosition();
@@ -21,10 +22,13 @@ public:
 	GLfloat getLength();
 	void setLength(GLfloat l);
 
-	cube* getACube(int x, int y, int z);  //·µ»ØCube[x][y][z]µÄÖ¸Õë
+	cube* getACube(int x, int y, int z);  //è¿”å›Cube[x][y][z]çš„æŒ‡é’ˆ
 
 	void RotatPlane(int xyz, int num, int dir, int update); 
-	//xyz = 0£¬ num = 1 ¼´ÎªĞı×ª x = 1 µÄÆ½Ãæ xyz = 1, num = 2¼´ÎªĞı×ª y = 2µÄÃæ£¬ÀàÍÆ£¬num = 3ÎªÍ¬Ê±Ğı×ª3¸öÃæ£¬¼´Õû¸öÄ§·½ num = -1 ÎªÎŞ
-	//dir = -1/1ÎªË³/ÄæÊ±Õë, Ğı×ª½Ç¶È90 £¬updateÎª0²»Ğè¸üĞÂCubeÊı×é,1ÎªĞèÒª¸üĞÂ¡£
+	//xyz = 0ï¼Œ num = 1 å³ä¸ºæ—‹è½¬ x = 1 çš„å¹³é¢ xyz = 1, num = 2å³ä¸ºæ—‹è½¬ y = 2çš„é¢ï¼Œç±»æ¨ï¼Œnum = 3ä¸ºåŒæ—¶æ—‹è½¬3ä¸ªé¢ï¼Œå³æ•´ä¸ªé­”æ–¹ num = -1 ä¸ºæ— 
+	//dir = -1/1ä¸ºé¡º/é€†æ—¶é’ˆ, æ—‹è½¬è§’åº¦90 ï¼Œupdateä¸º0ä¸éœ€æ›´æ–°Cubeæ•°ç»„,1ä¸ºéœ€è¦æ›´æ–°ã€‚
+	
+	void checkc(); //æ£€æŸ¥é­”æ–¹æ˜¯å¦æ˜¯å®ŒæˆçŠ¶æ€ï¼Œå¹¶æ›´æ–°IsCompleted
+	bool IsComp(); //è¿”å›IsCompletedçš„å€¼
 };
 #endif
