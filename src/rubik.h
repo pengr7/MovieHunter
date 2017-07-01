@@ -30,5 +30,6 @@ public:
 	
 	void checkc(); //检查魔方是否是完成状态，并更新IsCompleted
 	bool IsComp(); //返回IsCompleted的值
+	void reset(); //还原魔方
 };
 #endif
