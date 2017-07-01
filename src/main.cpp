@@ -2,7 +2,11 @@
 #include "Dependencies\freeglut\freeglut.h"
 #include <math.h>
 #include <time.h>
-#include<iostream>
+#include <Windows.h>
+#include <iostream>
+#include <string>
+#include <cctype>
+#include <cstdlib>
 #include "RubikController.h"
 using namespace std;
 
@@ -21,6 +25,7 @@ GLfloat speed = 0.3;
 GLfloat xadd = 0.4;
 GLfloat yadd = 0.4;
 GLfloat zadd = 0;
+string restore;
 
 void renderScene(void) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -69,8 +74,7 @@ void main(int argc, char **argv)
 	glutMainLoop();
 }
 
-void processNormalKeys(unsigned char key, int x, int y)
-{
+void subProcess(unsigned char key, int x, int y) {
 	// Front Back Up Down Left Right
 	if (key == 'F')
 		controller->RoateSetting(2, 2, 1);
@@ -157,4 +161,24 @@ void processNormalKeys(unsigned char key, int x, int y)
 		if (yadd > 0.7)
 			yadd = 0.7;
 	}
+}
+
+void processNormalKeys(unsigned char key, int x, int y)
+{
+	if (key == 'Q' || key == 'q') {
+		if (!restore.empty() && !controller->getRotatingState()) {
+			subProcess(restore.back(), x, y);
+			restore.pop_back();
+		}
+	}
+	else {
+		if (!controller->getRotatingState()) {
+			subProcess(key, x, y);
+			if (isupper(key))
+				restore += tolower(key);
+			if (islower(key))
+				restore += toupper(key);
+		}
+	}
+	cout << restore << endl;
 }
