@@ -1,5 +1,7 @@
 # Rubik's Cube Simulator
 Note: Here a lower case letter indicates a counter-clockwise turn
+
+Notation reference: https://en.wikipedia.org/wiki/Rubik's_Cube#Move_notation
 ### Basic operations
 - F (Front): the side currently facing the solver
 - B (Back): the side opposite the front
