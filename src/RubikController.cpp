@@ -11,9 +11,13 @@ RubikController::RubikController() {
 
 RubikController::~RubikController() {}
 
+bool RubikController::getRotatingState() {
+	return IsRoating;
+}
+
 void RubikController::setRubik(rubik* rubik_) {
 	MyRubik = rubik_;
-}//设置魔方
+}//璁剧疆榄旀柟
 
 void RubikController::setSpeed(GLfloat s) {
 	RoateSpeed = s;
@@ -28,7 +32,7 @@ void RubikController::RoateSetting(int xyz_, int num_, int dir_) {
 			IsRoating = true;
 		}
 	}
-} //只有在IsRoating是false的情况下才能更改xyz,num,dir
+} //鍙湁鍦↖sRoating鏄痜alse鐨勬儏鍐典笅鎵嶈兘鏇存敼xyz,num,dir
 
 void RubikController::RubikMainCycle() {
 	if (IsRoating) {
@@ -71,5 +75,5 @@ void RubikController::RubikMainCycle() {
 		}
 	}
 
-}//主循环里每次循环都调用本函数，在这个函数调用MyRubik->RotatPlane(),并更新IsRoating和RoateCount,然后绘制魔方
+}//涓诲惊鐜噷姣忔寰幆閮借皟鐢ㄦ湰鍑芥暟锛屽湪杩欎釜鍑芥暟璋冪敤MyRubik->RotatPlane(),骞舵洿鏂癐sRoating鍜孯oateCount,鐒跺悗缁樺埗榄旀柟
 
