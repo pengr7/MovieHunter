@@ -60,7 +60,6 @@ void renderScene(void) {
 
 void Reshape(int width, int height) {
 	TwWindowSize(width, height);
-
 }
 
 // function callback for UI 
@@ -253,8 +252,7 @@ void TW_CALL Restore(void*) {
 }
 
 
-
-void main(int argc, char **argv)
+int main(int argc, char **argv)
 {
 	TwBar *bar; // Pointer to the tweak bar
 	TwBar *mybar; // Pointer to the tweak bar
@@ -294,10 +292,10 @@ void main(int argc, char **argv)
 	TwDefine(" TweakBar size='200 170' color='96 216 224' "); // change default tweak bar size and color
 	TwDefine(" TweakBar position='10 10' ");
 	TwAddButton(bar, "Rotate_X", Rotate_X, NULL, " label='Rotate X ' ");
-	TwAddButton(bar, "Rotate_Y", Rotate_Y, NULL, " label='Rotate Y ' ");
-	TwAddButton(bar, "Rotate_Z", Rotate_Z, NULL, " label='Rotate Z ' ");
 	TwAddButton(bar, "Rotate_X_inverse", Rotate_X_inverse, NULL, " label='Rotate X inverse' ");
+	TwAddButton(bar, "Rotate_Y", Rotate_Y, NULL, " label='Rotate Y ' ");
 	TwAddButton(bar, "Rotate_Y_inverse", Rotate_Y_inverse, NULL, " label='Rotate Y inverse' ");
+	TwAddButton(bar, "Rotate_Z", Rotate_Z, NULL, " label='Rotate Z ' ");
 	TwAddButton(bar, "Rotate_Z_inverse", Rotate_Z_inverse, NULL, " label='Rotate Z inverse' ");
 	TwAddButton(bar, "Undo", Undo, NULL, " label='Undo' ");
 	TwAddButton(bar, "Restore", Restore, NULL, " label='Restore' ");
@@ -354,7 +352,6 @@ void main(int argc, char **argv)
 	glutKeyboardFunc(processNormalKeys);
 	glutMainLoop();
 }
-
 
 
 void subProcess(unsigned char key) {
