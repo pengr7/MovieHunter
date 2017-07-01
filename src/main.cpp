@@ -289,7 +289,7 @@ int main(int argc, char **argv)
 
 	bar = TwNewBar("TweakBar");
 	TwDefine(" GLOBAL help='Rotate the rubik' "); // Message added to the help bar.
-	TwDefine(" TweakBar size='200 170' color='96 216 224' "); // change default tweak bar size and color
+	TwDefine(" TweakBar size='200 175' color='96 216 224' "); // change default tweak bar size and color
 	TwDefine(" TweakBar position='10 10' ");
 	TwAddButton(bar, "Rotate_X", Rotate_X, NULL, " label='Rotate X ' ");
 	TwAddButton(bar, "Rotate_X_inverse", Rotate_X_inverse, NULL, " label='Rotate X inverse' ");
@@ -315,7 +315,7 @@ int main(int argc, char **argv)
 
 	bar = TwNewBar("Action_normal");
 	TwDefine(" GLOBAL help='Your action' "); // Message added to the help bar.
-	TwDefine(" Action_normal size='200 180' color='96 216 224' "); // change default tweak bar size and color
+	TwDefine(" Action_normal size='200 175' color='96 216 224' "); // change default tweak bar size and color
 	TwDefine(" Action_normal position='250 10' ");
 	TwAddButton(bar, "Front", Action_Front, NULL, " label='Front' ");
 	TwAddButton(bar, "Back", Action_Back, NULL, " label='Back' ");
@@ -330,7 +330,7 @@ int main(int argc, char **argv)
 
 	bar = TwNewBar("Action_inverse");
 	TwDefine(" GLOBAL help='Your action' "); // Message added to the help bar.
-	TwDefine(" Action_inverse size='200 180' color='96 216 224' "); // change default tweak bar size and color
+	TwDefine(" Action_inverse size='200 175' color='96 216 224' "); // change default tweak bar size and color
 	TwDefine(" Action_inverse position='490 10' ");
 	TwAddButton(bar, "Front_inverse", Action_Front_inverse, NULL, " label='Front_inverse' ");
 	TwAddButton(bar, "Back_inverse", Action_Back_inverse, NULL, " label='Back_inverse' ");
