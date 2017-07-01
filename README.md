@@ -19,8 +19,8 @@ Notation reference: https://en.wikipedia.org/wiki/Rubik's_Cube#Move_notation
 - S (Standing): the layer between F and B, turn direction as F
 
 ### View tuning
-- ( 8 )
-- (456): fine tune the view
+- &nbsp;8
+- 456: fine tune the view
 - 0: reset the view
 
 ### Undo and restore
