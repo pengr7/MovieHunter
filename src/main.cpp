@@ -1,19 +1,22 @@
 #include "Dependencies\glew\glew.h"
 #include "Dependencies\freeglut\freeglut.h"
 #include "Dependencies\AntTweakBar\AntTweakBar.h"
-#include <math.h>
-#include <time.h>
-#include <stdlib.h>
-#include <stdio.h>
+
+#include <cstdlib>
+#include <ctime>
+#include <cstdio>
 #include <iostream>
-#include "RubikController.h"
+#include <algorithm>
 using namespace std;
 
-void processNormalKeys(unsigned char key, int x, int y);
-void subProcess(unsigned char key);
+#include "RubikController.h"
 
 rubik* myRubik;
 RubikController* controller;
+
+string restore;
+const string keys = "FfBbLlRrUuDdMmEeSsXxYyZz";
+
 GLfloat RubikPosition[3] = { 0,0,0 };
 GLfloat RubikColor[6][3] = { { 1, 1, 1 },
 { 1, 0, 0 },
@@ -26,7 +29,11 @@ GLfloat speed = 0.3;
 GLfloat xadd = 0.4;
 GLfloat yadd = 0.4;
 GLfloat zadd = 0;
-string restore;
+
+
+void processNormalKeys(unsigned char key, int x, int y);  // 处理键盘按键
+void subProcess(unsigned char key, bool undo = false);  // 键盘和鼠标事件的辅助函数
+void subSubProcess(unsigned char key);  // subProcess的辅助函数
 
 void renderScene(void) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -64,187 +71,87 @@ void Reshape(int width, int height) {
 
 // function callback for UI 
 void TW_CALL Rotate_X(void*) {
-	if (controller->getRotatingState())
-		return;
-	controller->RoateSetting(0, 3, 1);
-	restore += tolower('x');
+	subProcess('X');
 }
 void TW_CALL Rotate_Y(void*) {
-	if (controller->getRotatingState())
-		return;
-	controller->RoateSetting(1, 3, 1);
-	restore += tolower('y');
+	subProcess('Y');
 }
 void TW_CALL Rotate_Z(void*) {
-	if (controller->getRotatingState())
-		return;
-	controller->RoateSetting(2, 3, 1);
-	restore += tolower('z');
+	subProcess('Z');
 }
 void TW_CALL Rotate_X_inverse(void*) {
-	if (controller->getRotatingState())
-		return;
-	controller->RoateSetting(0, 3, -1);
-	restore += toupper('x');
+	subProcess('x');
 }
 void TW_CALL Rotate_Y_inverse(void*) {
-	if (controller->getRotatingState())
-		return;
-	controller->RoateSetting(1, 3, -1);
-	restore += toupper('y');
+	subProcess('y');
 }
 void TW_CALL Rotate_Z_inverse(void*) {
-	if (controller->getRotatingState())
-		return;
-	controller->RoateSetting(2, 3, -1);
-	restore += toupper('z');
+	subProcess('z');
 }
-/*
-void TW_CALL Look_Default(void*) {
-xadd = 0.4;
-yadd = 0.4;
-zadd = 0;
-}
-void TW_CALL Look_Left(void*) {
-xadd -= 0.1;
-if (xadd < -0.7)
-xadd = -0.7;
-}
-void TW_CALL Look_Right(void*) {
-xadd += 0.1;
-if (xadd > 0.7)
-xadd = 0.7;
-}
-void TW_CALL Look_Up(void*) {
-yadd -= 0.1;
-if (yadd < -0.7)
-yadd = -0.7;
-}
-void TW_CALL Look_Down(void*) {
-yadd += 0.1;
-if (yadd > 0.7)
-yadd = 0.7;
-}
-
-*/
-
 
 void TW_CALL Action_Front(void*) {
-	if (controller->getRotatingState())
-		return;
-	controller->RoateSetting(2, 2, 1);
-	restore += tolower('f');
+	subProcess('F');
 }
 void TW_CALL Action_Back(void*) {
-	if (controller->getRotatingState())
-		return;
-	controller->RoateSetting(2, 0, -1);
-	restore += tolower('b');
+	subProcess('B');
 }
 void TW_CALL Action_Left(void*) {
-	if (controller->getRotatingState())
-		return;
-	controller->RoateSetting(0, 0, -1);
-	restore += tolower('L');
+	subProcess('L');
 }
 void TW_CALL Action_Right(void*) {
-	if (controller->getRotatingState())
-		return;
-	controller->RoateSetting(0, 2, 1);
-	restore += tolower('r');
+	subProcess('R');
 }
 void TW_CALL Action_Up(void*) {
-	if (controller->getRotatingState())
-		return;
-	controller->RoateSetting(1, 2, 1);
-	restore += tolower('u');
+	subProcess('U');
 }
 void TW_CALL Action_Down(void*) {
-	if (controller->getRotatingState())
-		return;
-	controller->RoateSetting(1, 0, -1);
-	restore += tolower('d');
+	subProcess('D');
 }
 
 void TW_CALL Action_Front_inverse(void*) {
-	if (controller->getRotatingState())
-		return;
-	controller->RoateSetting(2, 2, -1);
-	restore += toupper('f');
+	subProcess('f');
 }
 void TW_CALL Action_Back_inverse(void*) {
-	if (controller->getRotatingState())
-		return;
-	controller->RoateSetting(2, 0, 1);
-	restore += toupper('b');
+	subProcess('b');
 }
 void TW_CALL Action_Left_inverse(void*) {
-	if (controller->getRotatingState())
-		return;
-	controller->RoateSetting(0, 0, 1);
-	restore += toupper('L');
+	subProcess('l');
 }
 void TW_CALL Action_Right_inverse(void*) {
-	if (controller->getRotatingState())
-		return;
-	controller->RoateSetting(0, 2, -1);
-	restore += toupper('r');
+	subProcess('r');
 }
 void TW_CALL Action_Up_inverse(void*) {
-	if (controller->getRotatingState())
-		return;
-	controller->RoateSetting(1, 2, -1);
-	restore += toupper('u');
+	subProcess('u');
 }
 void TW_CALL Action_Down_inverse(void*) {
-	if (controller->getRotatingState())
-		return;
-	controller->RoateSetting(1, 0, 1);
-	restore += toupper('d');
+	subProcess('d');
 }
-
 
 void TW_CALL Action_M(void*) {
-	if (controller->getRotatingState())
-		return;
-	controller->RoateSetting(0, 1, -1);
-	restore += tolower('m');
+	subProcess('M');
 }
 void TW_CALL Action_E(void*) {
-	if (controller->getRotatingState())
-		return;
-	controller->RoateSetting(1, 1, -1);
-	restore += tolower('e');
+	subProcess('E');
 }
 void TW_CALL Action_S(void*) {
-	if (controller->getRotatingState())
-		return;
-	controller->RoateSetting(2, 1, 1);
-	restore += tolower('s');
+	subProcess('S');
 }
 void TW_CALL Action_M_inverse(void*) {
-	if (controller->getRotatingState())
-		return;
-	controller->RoateSetting(0, 1, 1);
-	restore += toupper('m');
+	subProcess('m');
 }
 void TW_CALL Action_E_inverse(void*) {
-	if (controller->getRotatingState())
-		return;
-	controller->RoateSetting(1, 1, 1);
-	restore += toupper('e');
+	subProcess('e');
 }
 void TW_CALL Action_S_inverse(void*) {
-	if (controller->getRotatingState())
-		return;
-	controller->RoateSetting(2, 1, -1);
-	restore += toupper('s');
+	subProcess('s');
+}
+
+void TW_CALL Random(void*) {
+	subProcess(keys[rand() % 24]);
 }
 void TW_CALL Undo(void*) {
-	if (!restore.empty() && !controller->getRotatingState()) {
-		subProcess(restore.back());
-		restore.pop_back();
-	}
+	if (!restore.empty())
+		subProcess(restore.back(), true);
 }
 void TW_CALL Restore(void*) {
 	controller->doReset();
@@ -256,6 +163,7 @@ int main(int argc, char **argv)
 {
 	TwBar *bar; // Pointer to the tweak bar
 	TwBar *mybar; // Pointer to the tweak bar
+	srand(time(NULL));
 
 
 	glutInit(&argc, argv);
@@ -297,6 +205,7 @@ int main(int argc, char **argv)
 	TwAddButton(bar, "Rotate_Y_inverse", Rotate_Y_inverse, NULL, " label='Rotate Y inverse' ");
 	TwAddButton(bar, "Rotate_Z", Rotate_Z, NULL, " label='Rotate Z ' ");
 	TwAddButton(bar, "Rotate_Z_inverse", Rotate_Z_inverse, NULL, " label='Rotate Z inverse' ");
+	TwAddButton(bar, "Random", Random, NULL, " label='Random' ");
 	TwAddButton(bar, "Undo", Undo, NULL, " label='Undo' ");
 	TwAddButton(bar, "Restore", Restore, NULL, " label='Restore' ");
 	//TwAddButton(bar, "Rotate_X", Rotate_X, NULL, " label='Rotate around X direction' ");
@@ -354,7 +263,39 @@ int main(int argc, char **argv)
 }
 
 
-void subProcess(unsigned char key) {
+void processNormalKeys(unsigned char key, int x, int y) {
+	if (key == 'Q' || key == 'q') {
+		if (!restore.empty())
+			subProcess(restore.back(), true);
+	} else {
+		if (key == 'P' || key == 'p')
+			key = keys[rand() % 24];
+		subProcess(key);
+	}
+}
+
+
+void subProcess(unsigned char key, bool undo) {
+	if (controller->getRotatingState())
+		return;
+
+	subSubProcess(key);
+
+	if (find(keys.begin(), keys.end(), key) != keys.end()) {
+		if (undo) {
+			restore.pop_back();
+		} else {
+			if (isupper(key))
+				restore += tolower(key);
+			if (islower(key))
+				restore += toupper(key);
+		}
+		cout << restore << endl;
+	}
+}
+
+
+void subSubProcess(unsigned char key) {
 	// Front Back Up Down Left Right
 	if (key == 'F')
 		controller->RoateSetting(2, 2, 1);
@@ -382,24 +323,18 @@ void subProcess(unsigned char key) {
 		controller->RoateSetting(0, 2, -1);
 
 	// Middle Equator Standing
-	if (key == 'M') {
+	if (key == 'M')
 		controller->RoateSetting(0, 1, -1);
-	}
-	if (key == 'm') {
+	if (key == 'm')
 		controller->RoateSetting(0, 1, 1);
-	}
-	if (key == 'E') {
+	if (key == 'E')
 		controller->RoateSetting(1, 1, -1);
-	}
-	if (key == 'e') {
+	if (key == 'e')
 		controller->RoateSetting(1, 1, 1);
-	}
-	if (key == 'S') {
+	if (key == 'S')
 		controller->RoateSetting(2, 1, 1);
-	}
-	if (key == 's') {
+	if (key == 's')
 		controller->RoateSetting(2, 1, -1);
-	}
 
 	// X Y Z
 	if (key == 'X')
@@ -441,24 +376,4 @@ void subProcess(unsigned char key) {
 		if (yadd > 0.7)
 			yadd = 0.7;
 	}
-}
-
-void processNormalKeys(unsigned char key, int x, int y)
-{
-	if (key == 'Q' || key == 'q') {
-		if (!restore.empty() && !controller->getRotatingState()) {
-			subProcess(restore.back());
-			restore.pop_back();
-		}
-	}
-	else {
-		if (!controller->getRotatingState()) {
-			subProcess(key);
-			if (isupper(key))
-				restore += tolower(key);
-			if (islower(key))
-				restore += toupper(key);
-		}
-	}
-	cout << restore << endl;
 }
