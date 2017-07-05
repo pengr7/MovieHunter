@@ -23,6 +23,8 @@ Notation reference: https://en.wikipedia.org/wiki/Rubik's_Cube#Move_notation
 - (456): fine tune the view
 - 0: reset the view
 
-### Undo and restore
+### Shuffle, undo and restore
+- P or p: perform a random movement
+- Hold down P or p: shuffle
 - Q or q: undo
-- Hold down Q or q: Keep undoing till it restores
+- Hold down Q or q: keep undoing till it restores
