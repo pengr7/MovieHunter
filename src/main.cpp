@@ -1,35 +1,5 @@
-#include "Dependencies\glew\glew.h"
-#include "Dependencies\freeglut\freeglut.h"
-#include "Dependencies\AntTweakBar\AntTweakBar.h"
-
-#include <cstdlib>
-#include <ctime>
-#include <cstdio>
-#include <iostream>
-#include <algorithm>
-using namespace std;
-
-#include "RubikController.h"
-
-rubik* myRubik;
-RubikController* controller;
-
-string restore;
-const string keys = "FfBbLlRrUuDdMmEeSsXxYyZz";
-
-GLfloat RubikPosition[3] = { 0,0,0 };
-GLfloat RubikColor[6][3] = { { 1, 1, 1 },
-{ 1, 0, 0 },
-{ 0, 1, 0 },
-{ 1, 0.5f, 0 },
-{ 0, 0, 1 },
-{ 1, 1, 0 } };
-GLfloat RubikLength = 0.2f;
-GLfloat speed = 0.3;
-GLfloat xadd = 0.4;
-GLfloat yadd = 0.4;
-GLfloat zadd = 0;
-
+#include "globalVariables.h"
+#include "fileIO.h"
 
 void processNormalKeys(unsigned char key, int x, int y);  // 处理键盘按键
 void subProcess(unsigned char key, bool undo = false);  // 键盘和鼠标事件的辅助函数
@@ -65,7 +35,7 @@ void renderScene(void) {
 	glClear(GL_DEPTH_BUFFER_BIT);
 }
 
-void Reshape(int width, int height) {
+void glutReshape(int width, int height) {
 	TwWindowSize(width, height);
 }
 
@@ -158,27 +128,7 @@ void TW_CALL Restore(void*) {
 	restore.clear();
 }
 
-
-int main(int argc, char **argv)
-{
-	TwBar *bar; // Pointer to the tweak bar
-	TwBar *mybar; // Pointer to the tweak bar
-	srand(time(NULL));
-
-
-	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
-	glutInitWindowPosition(100, 0);
-	glutInitWindowSize(700, 700);
-	glutCreateWindow("Rubik");
-	glutCreateMenu(NULL);
-
-	glutDisplayFunc(renderScene);
-	glutReshapeFunc(Reshape);
-	glutIdleFunc(renderScene);
-
-	TwTerminate();
-
+void addTwBars() {
 	// UI use
 	TwInit(TW_OPENGL, NULL);
 	glutMouseFunc((GLUTmousebuttonfun)TwEventMouseButtonGLUT);
@@ -250,10 +200,30 @@ int main(int argc, char **argv)
 	TwAddButton(bar, "M_inverse", Action_M_inverse, NULL, " label='M_inverse' ");
 	TwAddButton(bar, "E_inverse", Action_E_inverse, NULL, " label='E_inverse' ");
 	TwAddButton(bar, "S_inverse", Action_S_inverse, NULL, " label='S_inverse' ");
+}
 
+int main(int argc, char **argv) {
+	srand((unsigned)time(NULL));
+
+	glutInit(&argc, argv);
+	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
+	glutInitWindowPosition(100, 0);
+	glutInitWindowSize(700, 700);
+	glutCreateWindow("Rubik");
+	glutCreateMenu(NULL);
+
+	glutDisplayFunc(renderScene);
+	glutReshapeFunc(glutReshape);
+	glutIdleFunc(renderScene);
+
+	TwTerminate();	
+	addTwBars();
 
 	//初始化魔方
-	myRubik = new rubik(RubikPosition, RubikColor, RubikLength);
+	rubikInfoInstance = readFromFile();
+	myRubik = new rubik(rubikInfoInstance.getRubikPosition(),
+						rubikInfoInstance.getRubikColor(),
+						rubikInfoInstance.getRubikLength());
 	controller = new RubikController();
 	controller->setRubik(myRubik);
 	controller->setSpeed(speed);
@@ -262,12 +232,12 @@ int main(int argc, char **argv)
 	glutMainLoop();
 }
 
-
 void processNormalKeys(unsigned char key, int x, int y) {
 	if (key == 'Q' || key == 'q') {
 		if (!restore.empty())
 			subProcess(restore.back(), true);
-	} else {
+	}
+	else {
 		if (key == 'P' || key == 'p')
 			key = keys[rand() % 24];
 		subProcess(key);
@@ -284,7 +254,8 @@ void subProcess(unsigned char key, bool undo) {
 	if (find(keys.begin(), keys.end(), key) != keys.end()) {
 		if (undo) {
 			restore.pop_back();
-		} else {
+		}
+		else {
 			if (isupper(key))
 				restore += tolower(key);
 			if (islower(key))
@@ -292,6 +263,7 @@ void subProcess(unsigned char key, bool undo) {
 		}
 		cout << restore << endl;
 	}
+	writeToFile(myRubik);
 }
 
 
@@ -377,3 +349,4 @@ void subSubProcess(unsigned char key) {
 			yadd = 0.7;
 	}
 }
+
