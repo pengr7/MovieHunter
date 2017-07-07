@@ -1,5 +1,4 @@
 #include "globalVariables.h"
-#include "fileIO.h"
 
 void processNormalKeys(unsigned char key, int x, int y);  // 处理键盘按键
 void subProcess(unsigned char key, bool undo = false);  // 键盘和鼠标事件的辅助函数
@@ -220,7 +219,7 @@ int main(int argc, char **argv) {
 	addTwBars();
 
 	//初始化魔方
-	rubikInfoInstance = readFromFile();
+	rubikInfo rubikInfoInstance;
 	myRubik = new rubik(rubikInfoInstance.getRubikPosition(),
 						rubikInfoInstance.getRubikColor(),
 						rubikInfoInstance.getRubikLength());
@@ -263,7 +262,6 @@ void subProcess(unsigned char key, bool undo) {
 		}
 		cout << restore << endl;
 	}
-	writeToFile(myRubik);
 }
 
 

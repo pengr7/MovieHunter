@@ -24,7 +24,7 @@ string restore;
 const string keys = "FfBbLlRrUuDdMmEeSsXxYyZz";
 
 rubikInfo rubikInfoInstance;
-GLfloat speed = 1;
+GLfloat speed = 0.4;
 GLfloat xadd = 0.4;
 GLfloat yadd = 0.4;
 GLfloat zadd = 0;
