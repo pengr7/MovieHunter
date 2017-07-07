@@ -30,7 +30,14 @@ void renderScene(void) {
 
 	TwDraw();
 
+	ostringstream ostTmp;
+	ostTmp << fixed << setprecision(2) << timer / 1000.0 << 's';
+	glRasterPos2f(-1.2f, -1.3f);
+	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	glutBitmapString(GLUT_BITMAP_TIMES_ROMAN_24, (const unsigned char*)ostTmp.str().c_str());
+
 	glutSwapBuffers();
+
 	glClear(GL_DEPTH_BUFFER_BIT);
 }
 
@@ -126,27 +133,20 @@ void TW_CALL Restore(void*) {
 	controller->doReset();
 	restore.clear();
 }
+void TW_CALL ResetTimer(void*) {
+	timer = 0;
+}
 
 void addTwBars() {
-	// UI use
 	TwInit(TW_OPENGL, NULL);
 	glutMouseFunc((GLUTmousebuttonfun)TwEventMouseButtonGLUT);
-	// - Directly redirect GLUT mouse motion events to AntTweakBar
 	glutMotionFunc((GLUTmousemotionfun)TwEventMouseMotionGLUT);
-	// - Directly redirect GLUT mouse "passive" motion events to AntTweakBar (same as MouseMotion)
 	glutPassiveMotionFunc((GLUTmousemotionfun)TwEventMouseMotionGLUT);
-	// - Directly redirect GLUT key events to AntTweakBar
-	//glutKeyboardFunc((GLUTkeyboardfun)TwEventKeyboardGLUT);
-	// - Directly redirect GLUT special key events to AntTweakBar
 	glutSpecialFunc((GLUTspecialfun)TwEventSpecialGLUT);
-	// - Send 'glutGetModifers' function pointer to AntTweakBar;
-	//   required because the GLUT key event functions do not report key modifiers states.
-	//TwGLUTModifiersFunc(glutGetModifiers);
-
 
 	bar = TwNewBar("TweakBar");
-	TwDefine(" GLOBAL help='Rotate the rubik' "); // Message added to the help bar.
-	TwDefine(" TweakBar size='200 175' color='96 216 224' "); // change default tweak bar size and color
+	TwDefine(" GLOBAL help='Rotate the rubik' ");
+	TwDefine(" TweakBar size='200 190' color='96 216 224' ");
 	TwDefine(" TweakBar position='10 10' ");
 	TwAddButton(bar, "Rotate_X", Rotate_X, NULL, " label='Rotate X ' ");
 	TwAddButton(bar, "Rotate_X_inverse", Rotate_X_inverse, NULL, " label='Rotate X inverse' ");
@@ -157,11 +157,11 @@ void addTwBars() {
 	TwAddButton(bar, "Random", Random, NULL, " label='Random' ");
 	TwAddButton(bar, "Undo", Undo, NULL, " label='Undo' ");
 	TwAddButton(bar, "Restore", Restore, NULL, " label='Restore' ");
-	//TwAddButton(bar, "Rotate_X", Rotate_X, NULL, " label='Rotate around X direction' ");
+	TwAddButton(bar, "ResetTimer", ResetTimer, NULL, " label='ResetTimer' ");
 	/*
 	bar = TwNewBar("Look_normal");
-	TwDefine(" GLOBAL help='A different perspective' "); // Message added to the help bar.
-	TwDefine(" Look size='200 300' color='96 216 224' "); // change default tweak bar size and color
+	TwDefine(" GLOBAL help='A different perspective' ");
+	TwDefine(" Look size='200 300' color='96 216 224' ");
 	TwDefine(" Look position='250 100' ");
 	TwAddButton(bar, "Look_Default", Look_Default, NULL, " label=' Default' ");
 	TwAddButton(bar, "Look_Left", Look_Left, NULL, " label='Look_Left' ");
@@ -172,8 +172,8 @@ void addTwBars() {
 
 
 	bar = TwNewBar("Action_normal");
-	TwDefine(" GLOBAL help='Your action' "); // Message added to the help bar.
-	TwDefine(" Action_normal size='200 175' color='96 216 224' "); // change default tweak bar size and color
+	TwDefine(" GLOBAL help='Your action' ");
+	TwDefine(" Action_normal size='200 175' color='96 216 224' ");
 	TwDefine(" Action_normal position='250 10' ");
 	TwAddButton(bar, "Front", Action_Front, NULL, " label='Front' ");
 	TwAddButton(bar, "Back", Action_Back, NULL, " label='Back' ");
@@ -187,8 +187,8 @@ void addTwBars() {
 
 
 	bar = TwNewBar("Action_inverse");
-	TwDefine(" GLOBAL help='Your action' "); // Message added to the help bar.
-	TwDefine(" Action_inverse size='200 175' color='96 216 224' "); // change default tweak bar size and color
+	TwDefine(" GLOBAL help='Your action' ");
+	TwDefine(" Action_inverse size='200 175' color='96 216 224' ");
 	TwDefine(" Action_inverse position='490 10' ");
 	TwAddButton(bar, "Front_inverse", Action_Front_inverse, NULL, " label='Front_inverse' ");
 	TwAddButton(bar, "Back_inverse", Action_Back_inverse, NULL, " label='Back_inverse' ");
@@ -199,6 +199,11 @@ void addTwBars() {
 	TwAddButton(bar, "M_inverse", Action_M_inverse, NULL, " label='M_inverse' ");
 	TwAddButton(bar, "E_inverse", Action_E_inverse, NULL, " label='E_inverse' ");
 	TwAddButton(bar, "S_inverse", Action_S_inverse, NULL, " label='S_inverse' ");
+}
+
+void timerFunc(int) {
+	timer += 19;
+	glutTimerFunc(19, timerFunc, 0);
 }
 
 int main(int argc, char **argv) {
@@ -214,6 +219,7 @@ int main(int argc, char **argv) {
 	glutDisplayFunc(renderScene);
 	glutReshapeFunc(glutReshape);
 	glutIdleFunc(renderScene);
+	glutTimerFunc(19, timerFunc, 0);
 
 	TwTerminate();	
 	addTwBars();

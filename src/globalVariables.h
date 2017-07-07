@@ -5,6 +5,8 @@
 #include <cstdio>
 #include <iostream>
 #include <algorithm>
+#include <sstream>
+#include <iomanip>
 
 #include "rubikInfo.h"
 #include "RubikController.h"
@@ -28,3 +30,6 @@ GLfloat speed = 0.4;
 GLfloat xadd = 0.4;
 GLfloat yadd = 0.4;
 GLfloat zadd = 0;
+
+unsigned timer = 0;
+
