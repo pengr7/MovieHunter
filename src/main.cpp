@@ -7,12 +7,27 @@ void subSubProcess(unsigned char key);  // subProcess的辅助函数
 void renderScene(void) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	glEnable(GL_DEPTH_TEST);
+	glDisable(GL_DEPTH_TEST);
+	
+	/*
+	*/
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	gluOrtho2D(-1, 1, -1, 1);  // 平行投影
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	ostringstream ostTmp;
+	ostTmp << fixed << setprecision(2) << timer / 1000.0 << 's';
+	glRasterPos2f(-0.5, 0.5);
+	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+	glutBitmapString(GLUT_BITMAP_TIMES_ROMAN_24, (const unsigned char*)ostTmp.str().c_str());
 
+	
+	glEnable(GL_DEPTH_TEST);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	glFrustum(-0.2, 0.2, -0.2, 0.2, 0.5, 100);  // 透视投影
-
+	
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 	//gluLookAt(sin(clock() / 1000.0) * 2, 2, cos(clock() / 1000.0) * 2,
@@ -27,15 +42,10 @@ void renderScene(void) {
 
 	controller->RubikMainCycle();
 	glPopMatrix();
-
 	TwDraw();
 
-	ostringstream ostTmp;
-	ostTmp << fixed << setprecision(2) << timer / 1000.0 << 's';
-	glRasterPos2f(-1.2f, -1.3f);
-	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-	glutBitmapString(GLUT_BITMAP_TIMES_ROMAN_24, (const unsigned char*)ostTmp.str().c_str());
-
+	
+	
 	glutSwapBuffers();
 
 	glClear(GL_DEPTH_BUFFER_BIT);
